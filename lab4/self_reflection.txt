@@ -1,4 +1,4 @@
-All questions are optional, though try to answer at least 4. The main goal of this file is to get you thinking critically about your own work, but we will also use these self reflections at the end of the semester when we do our internal review of the course.
+All questions are optional, though try to answer at least 4. The Main goal of this file is to get you thinking critically about your own work, but we will also use these self reflections at the end of the semester when we do our internal review of the course.
 
 ArrayDeque:
 

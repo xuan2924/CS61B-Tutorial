@@ -369,7 +369,7 @@ events
 love
 old
 john
-main
+Main
 call
 hours
 image
