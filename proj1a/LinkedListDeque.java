@@ -1,0 +1,102 @@
+public class LinkedListDeque<T> {
+
+    private class Node{
+        public T item;
+        public Node prev;
+        public Node next;
+
+        public Node(T i, Node p, Node n){
+            item = i;
+            prev = p;
+            next = n;
+        }
+    }
+
+    private Node sentinel;
+    private int size;
+    //创建空队列
+    public LinkedListDeque(){
+        sentinel = new Node(null, null, null);
+        sentinel.next = sentinel;
+        sentinel.prev = sentinel;
+        size = 0;
+    }
+
+    //递归实现get
+    public T getRecursive(int index){
+        return getNextNode(index, 0, sentinel.next).item;
+    }
+
+    public Node getNextNode(int index, int count, Node curr){
+        if(curr == sentinel){
+            return null;
+        }
+        if(count == index){
+            return curr;
+        }
+        return getNextNode(index, count + 1, curr.next);
+    }
+
+    //迭代实现
+    public T get(int index){
+        int count = 0;
+        Node p = sentinel;
+        while (p.next != sentinel){
+            p = p.next;
+            count++;
+            if(count == index){
+                return p.item;
+            }
+        }
+        return null;
+    }
+
+
+    public int size(){
+        return this.size;
+    }
+
+
+    public void addFirst(T item){
+        Node newNode = new Node(item, sentinel, sentinel.next);
+        sentinel.next = newNode;
+        size += 1;
+    }
+
+    public void addLast(T item){
+        Node newNode = new Node(item, sentinel.prev, sentinel);
+        sentinel.prev = newNode;
+        size += 1;
+    }
+
+    public boolean isEmpty(){
+        return size == 0;
+    }
+
+    public void printDeque(){
+        Node p = sentinel;
+        while(p.next != sentinel){
+            System.out.print(p.item + " ");
+            p = p.next;
+        }
+    }
+
+    public T removeFirst(){
+        Node p = sentinel.next;
+        sentinel.next = p.next;
+        T res = p.item;
+        p = null;
+        return res;
+    }
+
+    public T removeLast(){
+        Node p = sentinel.prev;
+        sentinel.prev = p.prev;
+        T res = p.item;
+        p = null;
+        return res;
+    }
+
+
+
+}
