@@ -1,4 +1,4 @@
-package Arithmetic;
+
 
 public class Arithmetic {
     /** Computes product of two ints */

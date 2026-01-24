@@ -1,4 +1,3 @@
-package IntList;
 
 import static IntList.IntList.reverse;
 import static org.junit.Assert.*;
