@@ -6,7 +6,9 @@ public class AList<Item> {
     private Item[] items;
     private int size;
 
-    /** 创建一个空的 AList */
+    /**
+     * 创建一个空的 AList
+     */
     public AList() {
         // Java 不允许直接创建泛型数组 items = new Item[100];
         // 所以必须先创建 Object 数组再强转
@@ -14,7 +16,9 @@ public class AList<Item> {
         size = 0;
     }
 
-    /** 辅助方法：调整数组容量 */
+    /**
+     * 辅助方法：调整数组容量
+     */
     private void resize(int capacity) {
         Item[] a = (Item[]) new Object[capacity];
         // 将旧数组的元素复制到新数组
@@ -23,7 +27,9 @@ public class AList<Item> {
         items = a;
     }
 
-    /** 在列表末尾添加元素 (均摊复杂度 O(1)) */
+    /**
+     * 在列表末尾添加元素 (均摊复杂度 O(1))
+     */
     public void addLast(Item x) {
         // 如果数组满了，进行扩容
         if (size == items.length) {
@@ -34,22 +40,30 @@ public class AList<Item> {
         size += 1;
     }
 
-    /** 返回末尾元素 (O(1)) */
+    /**
+     * 返回末尾元素 (O(1))
+     */
     public Item getLast() {
         return items[size - 1];
     }
 
-    /** 获取指定索引的元素 (O(1)) */
+    /**
+     * 获取指定索引的元素 (O(1))
+     */
     public Item get(int i) {
         return items[i];
     }
 
-    /** 返回列表大小 (O(1)) */
+    /**
+     * 返回列表大小 (O(1))
+     */
     public int size() {
         return size;
     }
 
-    /** 删除并返回末尾元素 (O(1)) */
+    /**
+     * 删除并返回末尾元素 (O(1))
+     */
     public Item removeLast() {
         Item x = getLast();
 
