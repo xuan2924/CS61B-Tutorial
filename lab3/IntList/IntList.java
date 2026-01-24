@@ -1,4 +1,4 @@
-package intlist;
+package IntList;
 
 import java.util.Formatter;
 

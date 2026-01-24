@@ -1,6 +1,6 @@
-package intlist;
+package IntList;
 
-import static intlist.IntList.reverse;
+import static IntList.IntList.reverse;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
@@ -19,15 +19,15 @@ public class IntListTest {
         IntList twoOne = new IntList(2, one);
         IntList threeTwoOne = new IntList(3, twoOne);
 
-        IntList x = intlist.of(3, 2, 1);
+        IntList x = IntList.of(3, 2, 1);
         assertEquals(threeTwoOne, x);
     }
 
     @Test
     public void testdSquareList() {
-        IntList L = intlist.of(1, 2, 3);
-        intlist.dSquareList(L);
-        assertEquals(intlist.of(1, 4, 9), L);
+        IntList L = IntList.of(1, 2, 3);
+        IntList.dSquareList(L);
+        assertEquals(IntList.of(1, 4, 9), L);
     }
 
     /**
@@ -45,28 +45,28 @@ public class IntListTest {
 
     @Test
     public void testSquareListRecursive() {
-        IntList L = intlist.of(1, 2, 3);
-        IntList res = intlist.squareListRecursive(L);
-        assertEquals(intlist.of(1, 2, 3), L);
-        assertEquals(intlist.of(1, 4, 9), res);
+        IntList L = IntList.of(1, 2, 3);
+        IntList res = IntList.squareListRecursive(L);
+        assertEquals(IntList.of(1, 2, 3), L);
+        assertEquals(IntList.of(1, 4, 9), res);
     }
 
     @Test
     public void testDcatenate() {
-        IntList A = intlist.of(1, 2, 3);
-        IntList B = intlist.of(4, 5, 6);
-        IntList exp = intlist.of(1, 2, 3, 4, 5, 6);
-        assertEquals(exp, intlist.dcatenate(A, B));
-        assertEquals(intlist.of(1, 2, 3, 4, 5, 6), A);
+        IntList A = IntList.of(1, 2, 3);
+        IntList B = IntList.of(4, 5, 6);
+        IntList exp = IntList.of(1, 2, 3, 4, 5, 6);
+        assertEquals(exp, IntList.dcatenate(A, B));
+        assertEquals(IntList.of(1, 2, 3, 4, 5, 6), A);
     }
 
     @Test
     public void testCatenate() {
-        IntList A = intlist.of(1, 2, 3);
-        IntList B = intlist.of(4, 5, 6);
-        IntList exp = intlist.of(1, 2, 3, 4, 5, 6);
-        assertEquals(exp, intlist.catenate(A, B));
-        assertEquals(intlist.of(1, 2, 3), A);
+        IntList A = IntList.of(1, 2, 3);
+        IntList B = IntList.of(4, 5, 6);
+        IntList exp = IntList.of(1, 2, 3, 4, 5, 6);
+        assertEquals(exp, IntList.catenate(A, B));
+        assertEquals(IntList.of(1, 2, 3), A);
     }
 
     /** If you're running this from the command line, you'll need
@@ -75,8 +75,8 @@ public class IntListTest {
 
     @Test(timeout = 1000)
     public void testReverse(){
-        IntList B = intlist.of(0,1,2);
-        IntList exp = intlist.of(2,1,0);
+        IntList B = IntList.of(0,1,2);
+        IntList exp = IntList.of(2,1,0);
         assertEquals(null, reverse(null));
         assertEquals(exp,reverse(B));
     }
