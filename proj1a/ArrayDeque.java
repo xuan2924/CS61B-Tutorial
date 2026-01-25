@@ -42,10 +42,12 @@ public class ArrayDeque<T> {
         T[] newItems = (T[]) new Object[capacity];
         //System.arraycopy(items, 0, newItems, 0, items.length);
         //不可以简单的复制
+        //注意缩容的时候用的是size，如果用items.length会多循环
         int current = (front + 1) % items.length;
 
-        for (int i = 0; i < items.length; i++) {
+        for (int i = 0; i < size; i++) {
             newItems[i] = items[current];
+            //注意current是在旧的数组循环
             current = (current + 1) % items.length;
         }
         items = newItems;
@@ -54,20 +56,31 @@ public class ArrayDeque<T> {
     }
 
     public void printDeque() {
+        /*
         for (T t : items) {
-            System.out.print(t + " ");
+            //不是按照物理顺序打印
+            //按照逻辑顺序
+            //System.out.print(t + " ");
         }
+         */
+        int current = (front + 1) % items.length;
+        for (int i = 0; i < size; i++) {
+            System.out.print(items[current] + " ");
+            current = (current + 1) % items.length;
+        }
+        System.out.println();
     }
 
     public T removeFirst() {
         if (size == 0) {
             return null;/**/
         }
-        if (size < items.length / 4) {
+        if (size < items.length / 4 && items.length >= 16) {
             resize(items.length / 2);
         }
         T res = items[(front + 1) % items.length];
-        items[front] = null;
+        //items[front] = null;
+        items[(front + 1) % items.length] = null;
         front = (front + 1) % items.length;
         size -= 1;
         return res;
@@ -77,20 +90,23 @@ public class ArrayDeque<T> {
         if (size == 0) {
             return null;
         }
-        if (size < items.length / 4) {
+        if (size < items.length / 4 && items.length >= 16) {
             resize(items.length / 2);
         }
-        T res = items[(rear - 1) % items.length];
-        items[rear] = null;
-        rear = (rear - 1) % items.length;
+        T res = items[(rear - 1 + items.length) % items.length];
+        //items[rear] = null;
+        items[(rear - 1 + items.length) % items.length] = null;
+        rear = (rear - 1 + items.length) % items.length;
         size -= 1;
         return res;
     }
 
     public T get(int index) {
-        if (size < index) {
+        //return items[index];
+        //真正的索引：(front + 1 + index) % items.length
+        if (index < 0 || size <= index) {
             return null;
         }
-        return items[index];
+        return items[(front + 1 + index) % items.length];
     }
 }

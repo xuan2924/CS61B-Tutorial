@@ -24,7 +24,13 @@ public class LinkedListDeque<T> {
 
     //递归实现get
     public T getRecursive(int index) {
-        return getNextNode(index, 0, sentinel.next).item;
+        //直接这样如果返回null，就会因为null.item报错
+        //return getNextNode(index, 0, sentinel.next).item;
+        if (index < 0) {
+            return null;
+        }
+        Node res = getNextNode(index, 0, sentinel.next).item;
+        return (res == null) ? null : res.item;
     }
 
     private Node getNextNode(int index, int count, Node curr) {
@@ -39,6 +45,10 @@ public class LinkedListDeque<T> {
 
     //迭代实现
     public T get(int index) {
+        //边界检查
+        if (index < 0) {
+            return null;
+        }
         int count = 0;
         Node p = sentinel;
         while (p.next != sentinel) {
@@ -76,8 +86,8 @@ public class LinkedListDeque<T> {
     }
 
     public void printDeque() {
-        Node p = sentinel;
-        while (p.next != sentinel) {
+        Node p = sentinel.next;
+        while (p != sentinel) {
             System.out.print(p.item + " ");
             p = p.next;
         }
@@ -87,12 +97,13 @@ public class LinkedListDeque<T> {
         if (size == 0) {
             return null;
         }
-        Node firsttNode = sentinel.next;
-        sentinel.next = firsttNode.next;
-        firsttNode.next.prev = sentinel;
-        T res = firsttNode.item;
-        firsttNode.next = null;
-        firsttNode.prev = null;
+        Node firstNode = sentinel.next;
+        sentinel.next = firstNode.next;
+        firstNode.next.prev = sentinel;
+        T res = firstNode.item;
+        //垃圾回收
+        firstNode.next = null;
+        firstNode.prev = null;
         size -= 1;
         return res;
     }
