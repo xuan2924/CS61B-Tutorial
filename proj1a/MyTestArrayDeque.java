@@ -2,7 +2,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class myTestArrayDeque {
+public class MyTestArrayDeque {
     @Test
     public void testN8RemoveFirst() {
         ArrayDeque<Integer> ad = new ArrayDeque<>();

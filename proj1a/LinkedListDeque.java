@@ -29,7 +29,7 @@ public class LinkedListDeque<T> {
         if (index < 0) {
             return null;
         }
-        Node res = getNextNode(index, 0, sentinel.next).item;
+        Node res = getNextNode(index, 0, sentinel.next);
         return (res == null) ? null : res.item;
     }
 

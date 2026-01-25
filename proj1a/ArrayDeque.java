@@ -4,6 +4,7 @@ public class ArrayDeque<T> {
     private int front;
     private int rear;
     private final int initCapacity = 8;
+    private final int sizeLimit = 16;
 
     public ArrayDeque() {
         items = (T[]) new Object[initCapacity];
@@ -51,7 +52,7 @@ public class ArrayDeque<T> {
             current = (current + 1) % items.length;
         }
         items = newItems;
-        front = capacity - 1;//新数组的front指向末尾（数据从0开始数）
+        front = capacity - 1; //新数组的front指向末尾（数据从0开始数）
         rear = size;
     }
 
@@ -73,9 +74,9 @@ public class ArrayDeque<T> {
 
     public T removeFirst() {
         if (size == 0) {
-            return null;/**/
+            return null; /**/
         }
-        if (size < items.length / 4 && items.length >= 16) {
+        if (size < items.length / 4 && items.length >= sizeLimit) {
             resize(items.length / 2);
         }
         T res = items[(front + 1) % items.length];
@@ -90,7 +91,7 @@ public class ArrayDeque<T> {
         if (size == 0) {
             return null;
         }
-        if (size < items.length / 4 && items.length >= 16) {
+        if (size < items.length / 4 && items.length >= sizeLimit) {
             resize(items.length / 2);
         }
         T res = items[(rear - 1 + items.length) % items.length];
