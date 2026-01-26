@@ -15,16 +15,19 @@ public class TestOffByOne {
     @Test
     public void testEqualChars() {
         assertFalse(offByOne.equalChars('a', 'a'));
+        assertFalse(offByOne.equalChars('A', 'A'));
         assertTrue(offByOne.equalChars('a', 'b'));
-        assertTrue(offByOne.equalChars('A','B'));
+        assertTrue(offByOne.equalChars('A', 'B'));
 
         //特殊情况检查
         assertTrue(offByOne.equalChars('&', '%'));
         assertFalse(offByOne.equalChars('$', 'a'));
         assertTrue(offByOne.equalChars('A', 'B'));
         assertFalse(offByOne.equalChars('A', 'c'));
-        assertFalse(offByOne.equalChars('a','A'));
-        assertFalse(offByOne.equalChars('c','A'));
+        assertFalse(offByOne.equalChars('a', 'A'));
+        assertFalse(offByOne.equalChars('c', 'A'));
+        assertFalse(offByOne.equalChars('a', 'c'));
+        assertFalse(offByOne.equalChars('C', 'A'));
     }
 
 
