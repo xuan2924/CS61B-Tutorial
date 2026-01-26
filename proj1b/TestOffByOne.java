@@ -1,6 +1,5 @@
 import org.junit.Test;
 
-import javax.swing.plaf.PanelUI;
 
 import static org.junit.Assert.*;
 
@@ -11,17 +10,21 @@ public class TestOffByOne {
     static CharacterComparator offByOne = new OffByOne();
 
     // Your tests go here.
-    //Uncomment this class once you've created your CharacterComparator interface and OffByOne class. **/
+    //Uncomment this class once you've created
+    // your CharacterComparator interface and OffByOne class.
     @Test
     public void testEqualChars() {
         assertFalse(offByOne.equalChars('a', 'a'));
         assertTrue(offByOne.equalChars('a', 'b'));
+        assertTrue(offByOne.equalChars('A','B'));
 
         //特殊情况检查
         assertTrue(offByOne.equalChars('&', '%'));
         assertFalse(offByOne.equalChars('$', 'a'));
         assertTrue(offByOne.equalChars('A', 'B'));
         assertFalse(offByOne.equalChars('A', 'c'));
+        assertFalse(offByOne.equalChars('a','A'));
+        assertFalse(offByOne.equalChars('c','A'));
     }
 
 
