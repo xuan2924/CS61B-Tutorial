@@ -24,13 +24,13 @@ public class TestArrayDequeGold {
                 ad1.addLast(i);
                 log += "addLast(" + i + ")\n";
             } else if (numberBetweenZeroAndOne < 0.75) {
-                if(ad1.isEmpty()){
+                if (ad1.isEmpty()) {
                     continue;
                 }
                 log += "removeFirst()\n";
                 assertEquals(log, ad1.removeFirst(), sad1.removeFirst());
             } else {
-                if(ad1.isEmpty()){
+                if (ad1.isEmpty()) {
                     continue;
                 }
                 log += "removeLast()\n";
