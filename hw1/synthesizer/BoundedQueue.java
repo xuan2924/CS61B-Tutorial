@@ -1,6 +1,8 @@
 package synthesizer;
 
-public interface BoundedQueue<T> {
+import java.util.Iterator;
+
+public interface BoundedQueue<T> extends Iterable<T> {
     //接口不存数据
     int capacity();     // return size of the buffer
 
@@ -20,4 +22,6 @@ public interface BoundedQueue<T> {
         return fillCount() == capacity();
     }
 
+    @Override
+    Iterator<T> iterator();
 }
