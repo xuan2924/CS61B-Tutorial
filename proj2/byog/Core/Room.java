@@ -14,10 +14,10 @@ public class Room {
     private static int size = 0;
     private static TETile[][] world;
 
-//    public Room(long seed){
-//        this.seed = seed;
-//        RANDOM = new Random(seed);
-//    }
+    public Room(long seed){
+        this.seed = seed;
+        RANDOM.setSeed(seed);
+    }
 
 
     //位置类
@@ -159,7 +159,7 @@ public class Room {
     }
 
     //主函数测试用
-    public static void main(String[] args) {
+    public static void generate() {
         int height = 80;
         int width = 100;
         TERenderer ter = new TERenderer();

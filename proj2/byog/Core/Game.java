@@ -2,6 +2,9 @@ package byog.Core;
 
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
+import edu.princeton.cs.introcs.StdDraw;
+
+import java.awt.*;
 
 public class Game {
     TERenderer ter = new TERenderer();
@@ -24,6 +27,7 @@ public class Game {
      * world. However, the behavior is slightly different. After playing with "n123sss:q", the game
      * should save, and thus if we then called playWithInputString with the string "l", we'd expect
      * to get the exact same world back again, since this corresponds to loading the saved game.
+     *
      * @param input the input string to feed to your program
      * @return the 2D TETile[][] representing the state of the world
      */
@@ -32,12 +36,60 @@ public class Game {
         // and return a 2D tile representation of the world that would have been
         // drawn if the same inputs had been given to playWithKeyboard().
         int sum = 0;
-        for(int i = 0; i <input.length(); i += 1){
-            if(input.charAt(i) >= '0' && input.charAt(i) <= '9'){
-                sum = sum*10 + input.charAt(i) - '0';
+        for (int i = 0; i < input.length(); i += 1) {
+            if (input.charAt(i) >= '0' && input.charAt(i) <= '9') {
+                sum = sum * 10 + input.charAt(i) - '0';
             }
         }
         TETile[][] finalWorldFrame = null;
         return finalWorldFrame;
+    }
+
+    public static void drawMenu() {
+        StdDraw.enableDoubleBuffering();
+        StdDraw.setCanvasSize(WIDTH * 16, HEIGHT * 16);
+        StdDraw.setXscale(0, WIDTH * 16);
+        StdDraw.setYscale(0, HEIGHT * 16);
+        StdDraw.clear();
+        StdDraw.clear(Color.black);
+
+        //双缓冲才可以show()
+        Font bigFont = new Font("Monaco", Font.BOLD, 30);
+        StdDraw.setFont(bigFont);
+        StdDraw.setPenColor(Color.white);
+        StdDraw.text((double) WIDTH * 16 / 2, (double) HEIGHT * 16 * 4 / 5, "CS61B: THE GAME");
+
+        Font smallFront = new Font("Monaco", Font.BOLD, 15);
+        StdDraw.setFont(smallFront);
+        StdDraw.text((double) WIDTH * 16 / 2, (double) HEIGHT * 16 / 2, "New Game (N)");
+        StdDraw.text((double) WIDTH * 16 / 2, (double) HEIGHT * 16 / 2 + 30, "Load Game (L)");
+        StdDraw.text((double) WIDTH * 16 / 2, (double) HEIGHT * 16 / 2 + 60, "Quit (Q)");
+        StdDraw.show();
+
+    }
+
+    public static void main() {
+        drawMenu();
+        while (true) {
+
+            if (StdDraw.hasNextKeyTyped()) {
+                char input = Character.toLowerCase(StdDraw.nextKeyTyped());
+                if(input == 'l'){
+                    System.out.println("Load");
+
+                }
+                else if(input == 'q'){
+                    System.out.println("Quit");
+
+                }
+                else if(input == 'n'){
+                    Room.generate();
+
+                }
+            }
+
+            StdDraw.pause(50);
+        }
+
     }
 }
