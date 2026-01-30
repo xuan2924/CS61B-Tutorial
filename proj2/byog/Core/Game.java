@@ -31,7 +31,12 @@ public class Game {
         // TODO: Fill out this method to run the game using the input passed in,
         // and return a 2D tile representation of the world that would have been
         // drawn if the same inputs had been given to playWithKeyboard().
-
+        int sum = 0;
+        for(int i = 0; i <input.length(); i += 1){
+            if(input.charAt(i) >= '0' && input.charAt(i) <= '9'){
+                sum = sum*10 + input.charAt(i) - '0';
+            }
+        }
         TETile[][] finalWorldFrame = null;
         return finalWorldFrame;
     }
