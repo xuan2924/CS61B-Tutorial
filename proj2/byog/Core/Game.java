@@ -1,10 +1,15 @@
 package byog.Core;
 
+import byog.SaveDemo.World;
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
+import byog.TileEngine.Tileset;
 import edu.princeton.cs.introcs.StdDraw;
 
 import java.awt.*;
+import java.util.Scanner;
+
+//import static byog.Core.Room.world;
 
 public class Game {
     TERenderer ter = new TERenderer();
@@ -68,22 +73,62 @@ public class Game {
 
     }
 
+    public static void hnitSeed() {
+        StdDraw.clear(Color.black);
+        StdDraw.text((double) (WIDTH * 16) / 2, (double) (HEIGHT * 16) / 2, "Please input a seed");
+        StdDraw.show();
+    }
+
+    public static Room.Position move(TETile[][] world, Room.Position p, char m) {
+        Room.Position res = new Room.Position(p.x, p.y);
+        switch (m) {
+            case 'w':
+                res.y = p.y + 1 >= HEIGHT * 16 ? p.y : p.y + 1;
+                break;
+            case 'a':
+                res.x = p.x - 1 < 0 ? p.x : p.x - 1;
+                break;
+            case 's':
+                res.y = p.y - 1 < 0 ? p.y : p.y - 1;
+                break;
+            case 'd':
+                res.x = p.x + 1 >= WIDTH * 16 ? p.x : p.x + 1;
+                break;
+        }
+        return world[res.x][res.y].equals(Tileset.WALL) ? p : res;
+    }
+
+    public static void moveE(TETile[][] world, Room.Position p , Room.Position np){
+
+    }
+
+
     public static void main() {
         drawMenu();
         while (true) {
 
             if (StdDraw.hasNextKeyTyped()) {
                 char input = Character.toLowerCase(StdDraw.nextKeyTyped());
-                if(input == 'l'){
+                if (input == 'l') {
+
                     System.out.println("Load");
 
-                }
-                else if(input == 'q'){
+                } else if (input == 'q') {
                     System.out.println("Quit");
 
-                }
-                else if(input == 'n'){
-                    Room.generate();
+                } else if (input == 'n') {
+                    hnitSeed();
+                    long seed = 0;
+                    Scanner scanner = new Scanner(System.in);
+                    seed = scanner.nextLong();
+                    Room.Position start = new Room.Position(35, 36);
+                    Room.setRoomSeed(seed);
+                    Room.generate(start);
+                    while (true) {
+                       if(StdDraw.hasNextKeyTyped()){
+
+                       }
+                    }
 
                 }
             }
@@ -92,4 +137,5 @@ public class Game {
         }
 
     }
+
 }

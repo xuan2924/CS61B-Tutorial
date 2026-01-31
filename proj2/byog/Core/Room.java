@@ -12,11 +12,11 @@ public class Room {
     private static Random RANDOM = new Random(12345l);
     private static Position[] positions;
     private static int size = 0;
-    private static TETile[][] world;
+    public static TETile[][] world;
 
-    public Room(long seed){
-        this.seed = seed;
-        RANDOM.setSeed(seed);
+    public static void setRoomSeed(long s){
+        seed = s;
+        RANDOM.setSeed(s);
     }
 
 
@@ -159,19 +159,40 @@ public class Room {
     }
 
     //主函数测试用
-    public static void generate() {
+    public static void generate(Position userp) {
         int height = 80;
         int width = 100;
         TERenderer ter = new TERenderer();
         ter.initialize(width, height);
 
-        TETile[][] world = new TETile[width][height];
 
+        world = new TETile[width][height];
         setInitialize(world, width, height);
         //createFloor(world, 5, 5, new Position(width / 2, height / 2), Tileset.FLOOR);
         createRandom(world,20, width, height, Tileset.FLOOR);
         connectFloor(world);
+
         setWall(world,width,height);
+        if(!world[userp.x][userp.y].equals(Tileset.FLOOR))
+        {
+            for(int i = RANDOM.nextInt(width/2); i < width; i += 1){
+                boolean find =false;
+                for(int j = RANDOM.nextInt(height/2); j < height; j += 1){
+                    if(world[userp.x][userp.y].equals(Tileset.FLOOR))
+                    {
+                        world[i][j]=Tileset.FLOWER;
+                        find = true;
+                        break;
+                    }
+                }
+                if(find){
+                    break;
+                }
+            }
+        }
+        else{
+            world[userp.x][userp.y]=Tileset.FLOWER;
+        }
         ter.renderFrame(world);
     }
 }
