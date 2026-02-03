@@ -37,8 +37,9 @@ public class Game {
         TETile[][] worldA = playWithInputString("n3415218040718096461ssdsddaddaad");
 
         // 模拟实验 B
-        TETile[][] worldB_part1 = playWithInputString("n3415218040718096461ssdsddaddaa:q");
-        TETile[][] worldB_final = playWithInputString("l:q");
+        TETile[][] worldB_part1 = playWithInputString("n3415218040718096461ssdsddaddaad");
+        TETile[][] worldB_final = playWithInputString("n3415218040718096461ssdsddaddaa:qld");
+        worldB_final = playWithInputString("ld");
 
         Assert.assertArrayEquals(worldB_part1, worldB_final);
     }
@@ -64,42 +65,56 @@ public class Game {
         Position start = new Position(0, 0);
         TETile[][] world = new TETile[MAP_WIDTH][MAP_HEIGHT];
         long seed = 0;
-        Random random = null;
+        int commandIndex = 0;
         
-        switch (input.charAt(0)) {
-            case 'n':
-                int i;
-                for (i = 1; i < input.length(); i++) {
-                    if (input.charAt(i) >= '0' && input.charAt(i) <= '9') {
-                        seed = seed * 10 + input.charAt(i) - '0';
-                    } else {
-                        world= GenerateMap.generate(start, seed);
-                        break;
-                    }
-                }
-                i--;
-                for (; i < input.length(); i++) {
-                    if (i > 0 && input.charAt(i - 1) == ':' && input.charAt(i) == 'q') {
-                        // 保存游戏状态，包括world数组
-                        GameSave.UserLoad u = new GameSave.UserLoad(start, seed);
-                        GameSave.saveWorld(u);
-                        break;
-                    }
-                    Position np = start.newPosition(world, input.charAt(i));
-                    start.move(world, np);
-                }
-                break;
-            case 'l':
-                GameSave.UserLoad u = GameSave.loadWorld();
-                start = u.pos;
-                seed = u.seed;
-                world = generate(start,seed);
-                break;
-            case 'q':
-                System.exit(0);
-            default:
-                System.out.println("Invalid command");
+        if (input.length() == 0) {
+            return world;
         }
+        
+        // Parse initial command (N for new, L for load)
+        if (input.charAt(0) == 'n') {
+            // Extract seed
+            commandIndex = 1;
+            while (commandIndex < input.length() && input.charAt(commandIndex) >= '0' && input.charAt(commandIndex) <= '9') {
+                seed = seed * 10 + (input.charAt(commandIndex) - '0');
+                commandIndex++;
+            }
+            // Skip 'S' if present
+            if (commandIndex < input.length() && input.charAt(commandIndex) == 's') {
+                commandIndex++;
+            }
+            // Generate world
+            world = GenerateMap.generate(start, seed);
+        } else if (input.charAt(0) == 'l') {
+            // Load game
+            GameSave.UserLoad u = GameSave.loadWorld();
+            start = u.pos;
+            seed = u.seed;
+            world = GenerateMap.generate(start, seed);
+            commandIndex = 1;
+        }
+        
+        // Process remaining commands (movements and save)
+        while (commandIndex < input.length()) {
+            char ch = input.charAt(commandIndex);
+            
+            // Check for save command (:Q)
+            if (ch == ':' && commandIndex + 1 < input.length() && input.charAt(commandIndex + 1) == 'q') {
+                GameSave.UserLoad u = new GameSave.UserLoad(start, seed);
+                GameSave.saveWorld(u);
+                commandIndex += 2;
+                continue;
+            }
+            
+            // Process movement
+            if (ch == 'w' || ch == 'a' || ch == 's' || ch == 'd') {
+                Position newPos = start.newPosition(world, ch);
+                start.move(world, newPos);
+            }
+            
+            commandIndex++;
+        }
+        
         return world;
     }
 
@@ -152,14 +167,14 @@ public class Game {
                         if (StdDraw.hasNextKeyTyped()) {
                             char ch = StdDraw.nextKeyTyped();
                             if (ch >= '0' && ch <= '9') {
-                                seed = seed * 10 - ch - '0';
+                                seed = seed * 10 + ch - '0';
                             }
                             if (ch == 's' || ch == 'S') {
                                 break;
                             }
                         }
                     }
-                    world = generate(start, seed);
+                    world = GenerateMap.generate(start, seed);
                     playingGame(world, start, seed, ter);
                 }
             }
@@ -173,7 +188,7 @@ public class Game {
             if (StdDraw.hasNextKeyTyped()) {
                 char ch = StdDraw.nextKeyTyped();
                 if (ch == 'q') {
-                    GameSave.UserLoad u = new GameSave.UserLoad(curr, (int) seed);
+                    GameSave.UserLoad u = new GameSave.UserLoad(curr, seed);
                     GameSave.saveWorld(u);
                     System.exit(0);
                 }
