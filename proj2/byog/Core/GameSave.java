@@ -1,16 +1,17 @@
 package byog.Core;
 
 import java.io.*;
+import java.util.Random;
 
 public class GameSave implements Serializable {
 
     public static class UserLoad implements Serializable {
         public Position pos;
+        public long seed;
 
         private static final long serialVersionUID = 123123123123123L;
-        public int seed;
 
-        public UserLoad(Position pos, int seed) {
+        public UserLoad(Position pos, long seed) {
             this.pos = pos;
             this.seed = seed;
         }
@@ -19,6 +20,7 @@ public class GameSave implements Serializable {
             pos = new Position(0, 0);
             seed = 0;
         }
+
     }
 
     public static UserLoad loadWorld() {

@@ -6,6 +6,7 @@ import byog.TileEngine.Tileset;
 import edu.princeton.cs.introcs.StdDraw;
 
 import java.awt.*;
+import java.util.Random;
 
 import static byog.Core.GenerateMap.*;
 
@@ -45,7 +46,9 @@ public class Game {
         input = input.toLowerCase();
         Position start = new Position(0, 0);
         TETile[][] world = new TETile[MAP_WIDTH][MAP_HEIGHT];
-        int seed = 0;
+        long seed = 0;
+        Random random = null;
+        
         switch (input.charAt(0)) {
             case 'n':
                 int i;
@@ -53,13 +56,16 @@ public class Game {
                     if (input.charAt(i) >= '0' && input.charAt(i) <= '9') {
                         seed = seed * 10 + input.charAt(i) - '0';
                     } else {
-                        world = generate(start, seed);
+                        world= GenerateMap.generate(start, seed);
                         break;
                     }
                 }
                 i--;
                 for (; i < input.length(); i++) {
-                    if (input.charAt(i) == 'q') {
+                    if (i > 0 && input.charAt(i - 1) == ':' && input.charAt(i) == 'q') {
+                        // 保存游戏状态，包括Random对象
+                        GameSave.UserLoad u = new GameSave.UserLoad(start, seed);
+                        GameSave.saveWorld(u);
                         break;
                     }
                     Position np = start.newPosition(world, input.charAt(i));
@@ -70,7 +76,7 @@ public class Game {
                 GameSave.UserLoad u = GameSave.loadWorld();
                 start = u.pos;
                 seed = u.seed;
-                world = generate(start, seed);
+                world = GenerateMap.generate(start, seed);
                 break;
             case 'q':
                 System.exit(0);
@@ -109,7 +115,7 @@ public class Game {
         StdDraw.show();
     }
 
-    public void playGame(TETile[][] world, Position start, int seed, TERenderer ter) {
+    public void playGame(TETile[][] world, Position start, long seed, TERenderer ter) {
         while (true) {
             if (StdDraw.hasNextKeyTyped()) {
                 char input = Character.toLowerCase(StdDraw.nextKeyTyped());
@@ -143,7 +149,7 @@ public class Game {
         }
     }
 
-    public void playingGame(TETile[][] world, Position curr, int seed, TERenderer ter) {
+    public void playingGame(TETile[][] world, Position curr, long seed, TERenderer ter) {
         ter.initialize(MAP_WIDTH, MAP_HEIGHT);
         while (true) {
             //StdDraw.clear();

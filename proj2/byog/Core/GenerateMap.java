@@ -128,11 +128,11 @@ public class GenerateMap {
     }
 
     //主函数测试用
-    public static TETile[][] generate(Position userp, int s) {
+    public static TETile[][] generate(Position userp, long s) {
         seed = s;
         RANDOM = new Random(s);
         roomNum = 0;
-        int numberOfRooms = RANDOM.nextInt(10) + 15;
+        int numberOfRooms = 12;
         setInitialize(MAP_WIDTH, MAP_HEIGHT);
         //createFloor(world, 5, 5, new Position(width / 2, height / 2), Tileset.FLOOR);
         createRandom(numberOfRooms, MAP_WIDTH, MAP_HEIGHT, Tileset.FLOOR);
@@ -159,4 +159,5 @@ public class GenerateMap {
         }
         return world;
     }
+
 }
