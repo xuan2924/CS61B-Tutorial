@@ -1,6 +1,5 @@
-package byog.Core;
+package byog.CoreFF;
 
-import byog.SaveDemo.World;
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
@@ -9,7 +8,7 @@ import edu.princeton.cs.introcs.StdDraw;
 import java.awt.*;
 import java.util.Scanner;
 
-import static byog.Core.Room.*;
+import static byog.CoreFF.Room.*;
 
 //import static byog.Core.Room.world;
 
@@ -40,7 +39,7 @@ public class Game {
      * @param input the input string to feed to your program
      * @return the 2D TETile[][] representing the state of the world
      */
-    public void playWithInputString(String input) {
+    public TETile[][] playWithInputString(String input) {
         // TODO: Fill out this method to run the game using the input passed in,
         // and return a 2D tile representation of the world that would have been
         // drawn if the same inputs had been given to playWithKeyboard().
@@ -54,32 +53,29 @@ public class Game {
         Room.Position start = new Room.Position(3, 6);
         Room.generate(start);
         while (true) {
-            if(StdDraw.hasNextKeyTyped()){
-                if(StdDraw.isMousePressed()){
+            if (StdDraw.hasNextKeyTyped()) {
+                if (StdDraw.isMousePressed()) {
                     double x = StdDraw.mouseX();
                     double y = StdDraw.mouseY();
                     StdDraw.setFont(new Font("Monaco", Font.BOLD, 15));
-                    if(Room.world[(int)x][(int)y].equals(Tileset.WALL)){
-                        StdDraw.text(0,0,"WALL");
-                    }
-                    else if(Room.world[(int)x][(int)y].equals(Tileset.FLOOR)){
-                        StdDraw.text(0,0,"FLOOR");
-                    }
-                    else if(Room.world[(int)x][(int)y].equals(Tileset.NOTHING))
-                    {
-                        StdDraw.text(0,0,"NOTHING");
+                    if (Room.world[(int) x][(int) y].equals(Tileset.WALL)) {
+                        StdDraw.text(0, 0, "WALL");
+                    } else if (Room.world[(int) x][(int) y].equals(Tileset.FLOOR)) {
+                        StdDraw.text(0, 0, "FLOOR");
+                    } else if (Room.world[(int) x][(int) y].equals(Tileset.NOTHING)) {
+                        StdDraw.text(0, 0, "NOTHING");
                     }
 
                 }
-                char ch =StdDraw.nextKeyTyped();
-                if(ch == 'q'){
+                char ch = StdDraw.nextKeyTyped();
+                if (ch == 'q') {
                     GameSave.UserLoad u = new GameSave.UserLoad(start, (int) sum);
                     GameSave.saveWorld(u);
 
                     System.exit(0);
                 }
-                moveE(Room.world,start,move(Room.world,start,ch));
-                start = move(Room.world,start,ch);
+                moveE(Room.world, start, move(Room.world, start, ch));
+                start = move(Room.world, start, ch);
                 StdDraw.show();
                 ter.renderFrame(Room.world);
             }
@@ -130,13 +126,13 @@ public class Game {
                 res.x = p.x + 1 >= widthR ? p.x : p.x + 1;
                 break;
         }
-        return  world[res.x][res.y].equals(Tileset.WALL) ? p:res;
+        return world[res.x][res.y].equals(Tileset.WALL) ? p : res;
     }
 
-    public static void moveE(TETile[][] world, Room.Position p , Room.Position np){
-        if(!p.equals(np)){
-            world[p.x][p.y]=Tileset.FLOOR;
-            world[np.x][np.y]=Tileset.FLOWER;
+    public static void moveE(TETile[][] world, Room.Position p, Room.Position np) {
+        if (!p.equals(np)) {
+            world[p.x][p.y] = Tileset.FLOOR;
+            world[np.x][np.y] = Tileset.FLOWER;
         }
         p = np;
     }
@@ -157,33 +153,30 @@ public class Game {
                     Room.generate(start);
 
                     while (true) {
-                        if(StdDraw.hasNextKeyTyped()){
+                        if (StdDraw.hasNextKeyTyped()) {
 
                             StdDraw.setPenColor(Color.RED);
-                                double x = StdDraw.mouseX();
-                                double y = StdDraw.mouseY();
-                                StdDraw.setFont(new Font("Monaco", Font.BOLD, 15));
-                                if(Room.world[(int)x][(int)y].equals(Tileset.WALL)){
-                                    StdDraw.text(0,0,"WALL");
-                                }
-                                else if(Room.world[(int)x][(int)y].equals(Tileset.FLOOR)){
-                                    StdDraw.text(0,0,"FLOOR");
-                                }
-                                else if(Room.world[(int)x][(int)y].equals(Tileset.NOTHING))
-                                {
-                                    StdDraw.text(0,0,"NOTHING");
-                                }
+                            double x = StdDraw.mouseX();
+                            double y = StdDraw.mouseY();
+                            StdDraw.setFont(new Font("Monaco", Font.BOLD, 15));
+                            if (Room.world[(int) x][(int) y].equals(Tileset.WALL)) {
+                                StdDraw.text(0, 0, "WALL");
+                            } else if (Room.world[(int) x][(int) y].equals(Tileset.FLOOR)) {
+                                StdDraw.text(0, 0, "FLOOR");
+                            } else if (Room.world[(int) x][(int) y].equals(Tileset.NOTHING)) {
+                                StdDraw.text(0, 0, "NOTHING");
+                            }
 
 
-                            char ch =StdDraw.nextKeyTyped();
-                            if(ch == 'q'){
-                                 u = new GameSave.UserLoad(start, (int) seed);
+                            char ch = StdDraw.nextKeyTyped();
+                            if (ch == 'q') {
+                                u = new GameSave.UserLoad(start, (int) seed);
                                 GameSave.saveWorld(u);
 
                                 System.exit(0);
                             }
-                            moveE(Room.world,start,move(Room.world,start,ch));
-                            start = move(Room.world,start,ch);
+                            moveE(Room.world, start, move(Room.world, start, ch));
+                            start = move(Room.world, start, ch);
 
                             StdDraw.clear();
 
@@ -205,18 +198,18 @@ public class Game {
                     Room.setRoomSeed(seed);
                     Room.generate(start);
                     while (true) {
-                       if(StdDraw.hasNextKeyTyped()){
-                           char ch =StdDraw.nextKeyTyped();
-                           if(ch == 'q'){
-                               GameSave.UserLoad u = new GameSave.UserLoad(start, (int) seed);
-                               GameSave.saveWorld(u);
+                        if (StdDraw.hasNextKeyTyped()) {
+                            char ch = StdDraw.nextKeyTyped();
+                            if (ch == 'q') {
+                                GameSave.UserLoad u = new GameSave.UserLoad(start, (int) seed);
+                                GameSave.saveWorld(u);
 
-                               return;
-                           }
-                            moveE(Room.world,start,move(Room.world,start,ch));
-                            start = move(Room.world,start,ch);
+                                return;
+                            }
+                            moveE(Room.world, start, move(Room.world, start, ch));
+                            start = move(Room.world, start, ch);
                             ter.renderFrame(Room.world);
-                       }
+                        }
                     }
 
                 }

@@ -35,7 +35,7 @@ public class MemoryGame {
          */
         this.width = width;
         this.height = height;
-        StdDraw.setCanvasSize(this.width * 16, this.height * 16);
+        StdDraw.setCanvasSize(80, 100);
         Font font = new Font("Monaco", Font.BOLD, 30);
         StdDraw.setFont(font);
         StdDraw.setXscale(0, this.width);

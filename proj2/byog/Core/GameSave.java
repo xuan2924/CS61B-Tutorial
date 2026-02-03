@@ -6,7 +6,7 @@ public class GameSave implements Serializable {
 
     public static class UserLoad implements Serializable {
         public Position pos;
-        @Serial
+
         private static final long serialVersionUID = 123123123123123L;
         public int seed;
 

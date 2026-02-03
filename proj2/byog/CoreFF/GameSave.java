@@ -1,8 +1,5 @@
-package byog.Core;
+package byog.CoreFF;
 
-import byog.Core.Room;
-
-import javax.swing.plaf.PanelUI;
 import java.io.*;
 
 public class GameSave implements Serializable {

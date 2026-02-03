@@ -1,4 +1,4 @@
-package byog.Core;
+package byog.CoreFF;
 
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
@@ -7,8 +7,8 @@ import byog.TileEngine.Tileset;
 import java.io.Serializable;
 import java.util.Random;
 
-import static byog.Core.Game.HEIGHT;
-import static byog.Core.Game.WIDTH;
+import static byog.CoreFF.Game.HEIGHT;
+import static byog.CoreFF.Game.WIDTH;
 
 public class Room {
     //种子
@@ -16,8 +16,8 @@ public class Room {
     private static Random RANDOM = new Random(12345l);
     private static Position[] positions;
     private static int size = 0;
-    public static  int widthR = WIDTH/16;
-    public static int heightR = HEIGHT/16;
+    public static int widthR = WIDTH / 16;
+    public static int heightR = HEIGHT / 16;
     public static TETile[][] world = new TETile[widthR][heightR];
 
     public static void setRoomSeed(long s) {

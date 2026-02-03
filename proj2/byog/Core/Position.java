@@ -21,16 +21,20 @@ public class Position implements Serializable {
     public Position newPosition(TETile[][] world, char m) {
         Position res = new Position(x, y);
         switch (m) {
-            case 'w', 'W':
+            case 'w':
+            case 'W':
                 res.y = y + 1 >= MAP_HEIGHT ? y : y + 1;
                 break;
-            case 'a', 'A':
+            case 'a':
+            case 'A':
                 res.x = x - 1 < 0 ? x : x - 1;
                 break;
-            case 's', 'S':
+            case 's':
+            case 'S':
                 res.y = y - 1 < 0 ? y : y - 1;
                 break;
-            case 'd', 'D':
+            case 'd':
+            case 'D':
                 res.x = x + 1 >= MAP_WIDTH ? x : x + 1;
                 break;
             default:

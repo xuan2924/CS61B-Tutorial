@@ -1,4 +1,4 @@
-package byog.CoreFF;
+package byog.Core;
 
 import java.util.Random;
 
