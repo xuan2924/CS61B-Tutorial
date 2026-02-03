@@ -4,12 +4,11 @@ import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 import edu.princeton.cs.introcs.StdDraw;
-import org.junit.Assert;
+
 import org.junit.Test;
-import org.junit.Assert.*;
+
 
 import java.awt.*;
-import java.util.Random;
 
 
 import static byog.Core.GenerateMap.*;
@@ -28,8 +27,8 @@ public class Game {
     public void playWithKeyboard() {
         drawMenu();
         TETile[][] world = new TETile[MAP_WIDTH][MAP_HEIGHT];
-        TERenderer ter = new TERenderer();
-        playGame(world, new Position(0, 0), 0, ter);
+        TERenderer t = new TERenderer();
+        playGame(world, new Position(0, 0), 0, t);
     }
 
     @Test
@@ -101,7 +100,7 @@ public class Game {
      * @return the 2D TETile[][] representing the state of the world
      */
     public TETile[][] playWithInputString(String input) {
-        // TODO: Fill out this method to run the game using the input passed in,
+        // Finished: Fill out this method to run the game using the input passed in,
         // and return a 2D tile representation of the world that would have been
         // drawn if the same inputs had been given to playWithKeyboard().
         input = input.toLowerCase();
@@ -118,7 +117,8 @@ public class Game {
         if (input.charAt(0) == 'n') {
             // Extract seed
             commandIndex = 1;
-            while (commandIndex < input.length() && input.charAt(commandIndex) >= '0' && input.charAt(commandIndex) <= '9') {
+            while (commandIndex < input.length() && input.charAt(commandIndex) >= '0'
+                    && input.charAt(commandIndex) <= '9') {
                 seed = seed * 10 + (input.charAt(commandIndex) - '0');
                 commandIndex++;
             }
@@ -190,8 +190,9 @@ public class Game {
         StdDraw.show();
     }
 
-    public void playGame(TETile[][] world, Position start, long seed, TERenderer ter) {
+    public void playGame(TETile[][] world, Position start, long seed, TERenderer renderer) {
         while (true) {
+            TERenderer t = renderer;
             if (StdDraw.hasNextKeyTyped()) {
                 char input = Character.toLowerCase(StdDraw.nextKeyTyped());
                 if (input == 'q') {
@@ -202,7 +203,7 @@ public class Game {
                     start = u.pos;
                     seed = u.seed;
                     world = generate(start, seed);
-                    playingGame(world, start, seed, ter);
+                    playingGame(world, start, seed, t);
                 } else if (input == 'n') {
                     inputSeed();
                     seed = 0;
@@ -218,14 +219,14 @@ public class Game {
                         }
                     }
                     world = GenerateMap.generate(start, seed);
-                    playingGame(world, start, seed, ter);
+                    playingGame(world, start, seed, t);
                 }
             }
         }
     }
 
-    public void playingGame(TETile[][] world, Position curr, long seed, TERenderer ter) {
-        ter.initialize(MAP_WIDTH, MAP_HEIGHT);
+    public void playingGame(TETile[][] world, Position curr, long seed, TERenderer t) {
+        t.initialize(MAP_WIDTH, MAP_HEIGHT);
         while (true) {
             //StdDraw.clear();
             if (StdDraw.hasNextKeyTyped()) {
@@ -238,7 +239,7 @@ public class Game {
                 Position next = curr.newPosition(world, ch);
                 curr.move(world, next);
             }
-            ter.renderFrame(world);
+            t.renderFrame(world);
             hubShow(world);
             StdDraw.show();
             StdDraw.pause(50);

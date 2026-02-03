@@ -1,13 +1,13 @@
 package byog.Core;
 
-import byog.TileEngine.TETile;
+
 import java.io.*;
 
 public class GameSave implements Serializable {
 
     public static class UserLoad implements Serializable {
-        public Position pos;
-        public long seed;
+        Position pos;
+        long seed;
 
         private static final long serialVersionUID = 123123123123123L;
 

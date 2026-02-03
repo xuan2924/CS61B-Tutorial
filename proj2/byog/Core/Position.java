@@ -10,8 +10,8 @@ import static byog.Core.GenerateMap.MAP_WIDTH;
 
 //和位置有关，以及移动的一些操作
 public class Position implements Serializable {
-    public int x;
-    public int y;
+    int x;
+    int y;
 
     public Position(int x, int y) {
         this.x = x;

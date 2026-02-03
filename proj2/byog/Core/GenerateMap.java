@@ -12,12 +12,12 @@ import static byog.Core.Room.minRoomWidth;
 
 public class GenerateMap {
     private static long seed;
-    public static Random RANDOM;
+    static Random RANDOM;
     private static int roomNum; //房间数
 
-    private static final int changeSize = 16;
-    public static int MAP_WIDTH = WIDTH / changeSize;
-    public static int MAP_HEIGHT = HEIGHT / changeSize;
+    private static final int CHANGE_SIZE = 16;
+    static int MAP_WIDTH = WIDTH / CHANGE_SIZE;
+    static int MAP_HEIGHT = HEIGHT / CHANGE_SIZE;
 
     private static Position[] positions;
     private static TETile[][] world = new TETile[MAP_WIDTH][MAP_HEIGHT];
