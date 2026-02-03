@@ -1,8 +1,14 @@
 package byog.Core;
 
 
-import java.io.*;
-
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
+import java.io.ObjectOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.FileNotFoundException;
 public class GameSave implements Serializable {
 
     public static class UserLoad implements Serializable {

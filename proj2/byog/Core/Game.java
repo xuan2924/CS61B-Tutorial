@@ -8,8 +8,8 @@ import edu.princeton.cs.introcs.StdDraw;
 import org.junit.Test;
 
 
-import java.awt.*;
-
+import java.awt.Color;
+import java.awt.Font;
 
 import static byog.Core.GenerateMap.*;
 import static org.junit.Assert.assertEquals;
@@ -75,7 +75,8 @@ public class Game {
 
                 // 关键：比较 Tile 的字符特征 (character) 或者是描述 (description)
                 // 如果这里报错，说明这一个坐标上的东西不一样
-                String errorMsg = String.format("Mismatch at x=%d, y=%d. Expected: '%s' (%s), Actual: '%s' (%s)",
+                String errorMsg = String.format("Mismatch at x=%d, y=%d. "
+                                + "Expected: '%s' (%s), Actual: '%s' (%s)",
                         x, y,
                         expTile.character(), expTile.description(),
                         actTile.character(), actTile.description());
@@ -142,7 +143,8 @@ public class Game {
             char ch = input.charAt(commandIndex);
 
             // Check for save command (:Q)
-            if (ch == ':' && commandIndex + 1 < input.length() && input.charAt(commandIndex + 1) == 'q') {
+            if (ch == ':' && commandIndex + 1 < input.length()
+                    && input.charAt(commandIndex + 1) == 'q') {
                 GameSave.UserLoad u = new GameSave.UserLoad(start, seed);
                 GameSave.saveWorld(u);
                 commandIndex += 2;

@@ -26,7 +26,8 @@ public class GenerateMap {
         positions = new Position[num];
         for (int i = 0; i < num; i += 1) {
             Position p = new Position(RANDOM.nextInt(width), RANDOM.nextInt(height));
-            Room.createRoom(world, RANDOM.nextInt(10) + minRoomWidth, RANDOM.nextInt(10) + minRoomHeight, p, t);
+            Room.createRoom(world, RANDOM.nextInt(10) + minRoomWidth,
+                    RANDOM.nextInt(10) + minRoomHeight, p, t);
             positions[roomNum] = p;
             roomNum += 1;
         }
