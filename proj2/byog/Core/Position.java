@@ -1,15 +1,15 @@
-package byog.CoreF;
+package byog.Core;
 
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 
 import java.io.Serializable;
 
-import static byog.CoreF.GenerateMap.MAP_HEIGHT;
-import static byog.CoreF.GenerateMap.MAP_WIDTH;
+import static byog.Core.GenerateMap.MAP_HEIGHT;
+import static byog.Core.GenerateMap.MAP_WIDTH;
 
 //和位置有关，以及移动的一些操作
-public class   Position implements Serializable {
+public class Position implements Serializable {
     public int x;
     public int y;
 
@@ -32,6 +32,8 @@ public class   Position implements Serializable {
                 break;
             case 'd', 'D':
                 res.x = x + 1 >= MAP_WIDTH ? x : x + 1;
+                break;
+            default:
                 break;
         }
         return world[res.x][res.y].equals(Tileset.WALL) ? this : res;

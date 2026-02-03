@@ -1,33 +1,33 @@
 package byog.Core;
 
-import byog.Core.Room;
-
-import javax.swing.plaf.PanelUI;
 import java.io.*;
 
 public class GameSave implements Serializable {
-    public static class UserLoad implements Serializable{
-        public Room.Position pos;
-        private int seed;
 
-        public UserLoad(Room.Position pos,int seed){
+    public static class UserLoad implements Serializable {
+        public Position pos;
+        @Serial
+        private static final long serialVersionUID = 123123123123123L;
+        public int seed;
+
+        public UserLoad(Position pos, int seed) {
             this.pos = pos;
             this.seed = seed;
         }
 
-        public UserLoad(){
-            pos = new Room.Position();
+        public UserLoad() {
+            pos = new Position(0, 0);
             seed = 0;
         }
     }
 
-    private static UserLoad loadWorld(){
+    public static UserLoad loadWorld() {
         File f = new File("./world.ser");
-        if(f.exists()){
+        if (f.exists()) {
             try {
-                FileInputStream fs=new FileInputStream(f);
+                FileInputStream fs = new FileInputStream(f);
                 ObjectInputStream os = new ObjectInputStream(fs);
-                UserLoad loadWorld=(UserLoad)os.readObject();
+                UserLoad loadWorld = (UserLoad) os.readObject();
                 os.close();
                 return loadWorld;
             } catch (ClassNotFoundException | IOException e) {
@@ -37,18 +37,17 @@ public class GameSave implements Serializable {
         return new UserLoad();
     }
 
-    private static void saveWorld(UserLoad u){
+    public static void saveWorld(UserLoad u) {
         File f = new File("./world.ser");
-        try{
-            if(!f.exists()){
+        try {
+            if (!f.exists()) {
                 f.createNewFile();
             }
             FileOutputStream fo = new FileOutputStream(f);
             ObjectOutputStream os = new ObjectOutputStream(fo);
             os.writeObject(u);
             os.close();
-        }catch (){
-
+            System.out.println("Save");
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {

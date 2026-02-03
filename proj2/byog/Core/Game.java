@@ -1,21 +1,16 @@
 package byog.Core;
 
-import byog.SaveDemo.World;
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 import edu.princeton.cs.introcs.StdDraw;
 
 import java.awt.*;
-import java.util.Scanner;
 
-import static byog.Core.Room.heightR;
-import static byog.Core.Room.widthR;
-
-//import static byog.Core.Room.world;
+import static byog.Core.GenerateMap.*;
 
 public class Game {
-    static TERenderer ter = new TERenderer();
+    TERenderer ter = new TERenderer();
     /* Feel free to change the width and height. */
     public static final int WIDTH = 600;
     public static final int HEIGHT = 500;
@@ -25,7 +20,9 @@ public class Game {
      */
     public void playWithKeyboard() {
         drawMenu();
-        playGame();
+        TETile[][] world = new TETile[MAP_WIDTH][MAP_HEIGHT];
+        TERenderer ter = new TERenderer();
+        playGame(world, new Position(0, 0), 0, ter);
     }
 
     /**
@@ -41,30 +38,50 @@ public class Game {
      * @param input the input string to feed to your program
      * @return the 2D TETile[][] representing the state of the world
      */
-    public void playWithInputString(String input) {
+    public TETile[][] playWithInputString(String input) {
         // TODO: Fill out this method to run the game using the input passed in,
         // and return a 2D tile representation of the world that would have been
         // drawn if the same inputs had been given to playWithKeyboard().
-        int sum = 0;
-        for (int i = 0; i < input.length(); i += 1) {
-            if (input.charAt(i) >= '0' && input.charAt(i) <= '9') {
-                sum = sum * 10 + input.charAt(i) - '0';
-            }
+        input = input.toLowerCase();
+        Position start = new Position(0, 0);
+        TETile[][] world = new TETile[MAP_WIDTH][MAP_HEIGHT];
+        int seed = 0;
+        switch (input.charAt(0)) {
+            case 'n':
+                int i;
+                for (i = 1; i < input.length(); i++) {
+                    if (input.charAt(i) >= '0' && input.charAt(i) <= '9') {
+                        seed = seed * 10 + input.charAt(i) - '0';
+                    } else {
+                        world = generate(start, seed);
+                        break;
+                    }
+                }
+                i--;
+                for (; i < input.length(); i++) {
+                    if (input.charAt(i) == 'q') {
+                        break;
+                    }
+                    Position np = start.newPosition(world, input.charAt(i));
+                    start.move(world, np);
+                }
+                break;
+            case 'l':
+                GameSave.UserLoad u = GameSave.loadWorld();
+                start = u.pos;
+                seed = u.seed;
+                world = generate(start, seed);
+                break;
+            case 'q':
+                System.exit(0);
+            default:
+                System.out.println("Invalid command");
         }
-        Room.setRoomSeed(sum);
-        Room.Position start = new Room.Position(3, 6);
-        Room.generate(start);
-        while (true) {
-            if(StdDraw.hasNextKeyTyped()){
-                char ch =StdDraw.nextKeyTyped();
-                moveE(Room.world,start,move(Room.world,start,ch));
-                start = move(Room.world,start,ch);
-                ter.renderFrame(Room.world);
-            }
-        }
+        return world;
     }
 
-    public static void drawMenu() {
+
+    public void drawMenu() {
         StdDraw.enableDoubleBuffering();
         StdDraw.setCanvasSize(WIDTH, HEIGHT);
         StdDraw.setXscale(0, WIDTH);
@@ -86,75 +103,85 @@ public class Game {
         StdDraw.show();
     }
 
-    public static void hnitSeed() {
+    public void inputSeed() {
         StdDraw.clear(Color.black);
         StdDraw.text((double) WIDTH / 2, (double) HEIGHT / 2, "Please input a seed");
         StdDraw.show();
     }
 
-    public static Room.Position move(TETile[][] world, Room.Position p, char m) {
-        Room.Position res = new Room.Position(p.x, p.y);
-        switch (m) {
-            case 'w':
-                res.y = p.y + 1 >= heightR ? p.y : p.y + 1;
-                break;
-            case 'a':
-                res.x = p.x - 1 < 0 ? p.x : p.x - 1;
-                break;
-            case 's':
-                res.y = p.y - 1 < 0 ? p.y : p.y - 1;
-                break;
-            case 'd':
-                res.x = p.x + 1 >= widthR ? p.x : p.x + 1;
-                break;
-        }
-        return  world[res.x][res.y].equals(Tileset.WALL) ? p:res;
-    }
-
-    public static void moveE(TETile[][] world, Room.Position p , Room.Position np){
-        if(!p.equals(np)){
-            world[p.x][p.y]=Tileset.FLOOR;
-            world[np.x][np.y]=Tileset.FLOWER;
-        }
-        p = np;
-    }
-
-
-    public static void playGame() {
+    public void playGame(TETile[][] world, Position start, int seed, TERenderer ter) {
         while (true) {
-
             if (StdDraw.hasNextKeyTyped()) {
                 char input = Character.toLowerCase(StdDraw.nextKeyTyped());
-                if (input == 'l') {
-
+                if (input == 'q') {
+                    System.exit(0);
+                } else if (input == 'l') {
                     System.out.println("Load");
-
-                } else if (input == 'q') {
-                    System.out.println("Quit");
-
+                    GameSave.UserLoad u = GameSave.loadWorld();
+                    start = u.pos;
+                    seed = u.seed;
+                    world = generate(start, seed);
+                    playingGame(world, start, seed, ter);
                 } else if (input == 'n') {
-                    hnitSeed();
-                    long seed = 0;
-                    Scanner scanner = new Scanner(System.in);
-                    seed = scanner.nextLong();
-                    Room.Position start = new Room.Position(3, 6);
-                    Room.setRoomSeed(seed);
-                    Room.generate(start);
+                    inputSeed();
+                    seed = 0;
                     while (true) {
-                       if(StdDraw.hasNextKeyTyped()){
-                           char ch =StdDraw.nextKeyTyped();
-                            moveE(Room.world,start,move(Room.world,start,ch));
-                            start = move(Room.world,start,ch);
-                            ter.renderFrame(Room.world);
-                       }
+                        if (StdDraw.hasNextKeyTyped()) {
+                            char ch = StdDraw.nextKeyTyped();
+                            if (ch >= '0' && ch <= '9') {
+                                seed = seed * 10 - ch - '0';
+                            }
+                            if (ch == 's' || ch == 'S') {
+                                break;
+                            }
+                        }
                     }
-
+                    world = generate(start, seed);
+                    playingGame(world, start, seed, ter);
                 }
             }
-
-            StdDraw.pause(50);
         }
-
     }
 
+    public void playingGame(TETile[][] world, Position curr, int seed, TERenderer ter) {
+        ter.initialize(MAP_WIDTH, MAP_HEIGHT);
+        while (true) {
+            //StdDraw.clear();
+            if (StdDraw.hasNextKeyTyped()) {
+                char ch = StdDraw.nextKeyTyped();
+                if (ch == 'q') {
+                    GameSave.UserLoad u = new GameSave.UserLoad(curr, (int) seed);
+                    GameSave.saveWorld(u);
+                    System.exit(0);
+                }
+                Position next = curr.newPosition(world, ch);
+                curr.move(world, next);
+            }
+            ter.renderFrame(world);
+            hubShow(world);
+            StdDraw.show();
+            StdDraw.pause(50);
+        }
+    }
+
+    public void hubShow(TETile[][] world) {
+        int x = (int) StdDraw.mouseX();
+        int y = (int) StdDraw.mouseY();
+
+        String hub = "";
+
+        if (x >= 0 && x < MAP_WIDTH && y >= 0 && y < MAP_HEIGHT) {
+            if (world[x][y].equals(Tileset.WALL)) {
+                hub = "WALL";
+            } else if (world[x][y].equals(Tileset.FLOOR)) {
+                hub = "FLOOR";
+            } else if (world[x][y].equals(Tileset.FLOWER)) {
+                hub = "FLOWER";
+            } else {
+                hub = "NOTHING";
+            }
+        }
+        StdDraw.setPenColor(Color.WHITE);
+        StdDraw.textLeft(1, MAP_HEIGHT - 1, hub);
+    }
 }

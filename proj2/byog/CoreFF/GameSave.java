@@ -1,23 +1,23 @@
-package byog.CoreF;
+package byog.Core;
+
+import byog.Core.Room;
 
 import javax.swing.plaf.PanelUI;
 import java.io.*;
 
 public class GameSave implements Serializable {
-
     public static class UserLoad implements Serializable {
-        public Position pos;
-        @Serial
+        public Room.Position pos;
         private static final long serialVersionUID = 123123123123123L;
         public int seed;
 
-        public UserLoad(Position pos, int seed) {
+        public UserLoad(Room.Position pos, int seed) {
             this.pos = pos;
             this.seed = seed;
         }
 
         public UserLoad() {
-            pos = new Position(0,0);
+            pos = new Room.Position();
             seed = 0;
         }
     }

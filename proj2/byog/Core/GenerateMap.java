@@ -1,29 +1,25 @@
-package byog.CoreF;
+package byog.Core;
 
-import byog.CoreF.Position;
-import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
-import byog.CoreF.Room;
 
-import javax.swing.plaf.PanelUI;
 import java.util.Random;
 
-import static byog.CoreF.Game.HEIGHT;
-import static byog.CoreF.Game.WIDTH;
-import static byog.CoreF.Room.minRoomHeight;
-import static byog.CoreF.Room.minRoomWidth;
+import static byog.Core.Game.HEIGHT;
+import static byog.Core.Game.WIDTH;
+import static byog.Core.Room.minRoomHeight;
+import static byog.Core.Room.minRoomWidth;
 
 public class GenerateMap {
     private static long seed;
     public static Random RANDOM;
-    private static int roomNum ; //房间数
+    private static int roomNum; //房间数
 
     private static final int changeSize = 16;
     public static int MAP_WIDTH = WIDTH / changeSize;
     public static int MAP_HEIGHT = HEIGHT / changeSize;
 
-    private static Position[] positions ;
+    private static Position[] positions;
     private static TETile[][] world = new TETile[MAP_WIDTH][MAP_HEIGHT];
 
     public static void createRandom(int num, int width, int height, TETile t) {
@@ -83,7 +79,7 @@ public class GenerateMap {
 
     //用墙围起来
     public static void setWall(int width, int height) {
-        Position p = new Position(0,0);
+        Position p = new Position(0, 0);
         for (int i = 0; i < width; i += 1) {
             for (int j = 0; j < height; j += 1) {
                 p.x = i;
@@ -132,16 +128,16 @@ public class GenerateMap {
     }
 
     //主函数测试用
-    public static TETile[][] generate(Position userp,int s) {
+    public static TETile[][] generate(Position userp, int s) {
         seed = s;
-        RANDOM=new Random(s);
+        RANDOM = new Random(s);
         roomNum = 0;
         int numberOfRooms = RANDOM.nextInt(10) + 15;
-        setInitialize(MAP_WIDTH,MAP_HEIGHT);
+        setInitialize(MAP_WIDTH, MAP_HEIGHT);
         //createFloor(world, 5, 5, new Position(width / 2, height / 2), Tileset.FLOOR);
         createRandom(numberOfRooms, MAP_WIDTH, MAP_HEIGHT, Tileset.FLOOR);
         connectFloor();
-        setWall(MAP_WIDTH,MAP_HEIGHT);
+        setWall(MAP_WIDTH, MAP_HEIGHT);
         if (!world[userp.x][userp.y].equals(Tileset.FLOOR)) {
             for (int i = RANDOM.nextInt(MAP_WIDTH / 2); i < MAP_WIDTH; i += 1) {
                 boolean find = false;
