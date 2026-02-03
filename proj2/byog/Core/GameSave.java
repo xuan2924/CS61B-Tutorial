@@ -1,7 +1,7 @@
 package byog.Core;
 
+import byog.TileEngine.TETile;
 import java.io.*;
-import java.util.Random;
 
 public class GameSave implements Serializable {
 

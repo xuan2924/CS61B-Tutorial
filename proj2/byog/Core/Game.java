@@ -4,9 +4,13 @@ import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 import edu.princeton.cs.introcs.StdDraw;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.Assert.*;
 
 import java.awt.*;
 import java.util.Random;
+
 
 import static byog.Core.GenerateMap.*;
 
@@ -24,6 +28,19 @@ public class Game {
         TETile[][] world = new TETile[MAP_WIDTH][MAP_HEIGHT];
         TERenderer ter = new TERenderer();
         playGame(world, new Position(0, 0), 0, ter);
+    }
+
+    @Test
+
+    public void test() {
+        // 模拟实验 A
+        TETile[][] worldA = playWithInputString("n3415218040718096461ssdsddaddaad");
+
+        // 模拟实验 B
+        TETile[][] worldB_part1 = playWithInputString("n3415218040718096461ssdsddaddaa:q");
+        TETile[][] worldB_final = playWithInputString("l:q");
+
+        Assert.assertArrayEquals(worldB_part1, worldB_final);
     }
 
     /**
@@ -63,7 +80,7 @@ public class Game {
                 i--;
                 for (; i < input.length(); i++) {
                     if (i > 0 && input.charAt(i - 1) == ':' && input.charAt(i) == 'q') {
-                        // 保存游戏状态，包括Random对象
+                        // 保存游戏状态，包括world数组
                         GameSave.UserLoad u = new GameSave.UserLoad(start, seed);
                         GameSave.saveWorld(u);
                         break;
@@ -76,7 +93,7 @@ public class Game {
                 GameSave.UserLoad u = GameSave.loadWorld();
                 start = u.pos;
                 seed = u.seed;
-                world = GenerateMap.generate(start, seed);
+                world = generate(start,seed);
                 break;
             case 'q':
                 System.exit(0);
