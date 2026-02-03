@@ -6,8 +6,16 @@ import static byog.Core.GenerateMap.RANDOM;
 
 
 public class Room {
-    public static int minRoomWidth = 3;
-    public static int minRoomHeight = 3;
+    static int minRoomWidth = 3;
+    static int minRoomHeight = 3;
+    
+    public static int getMinRoomWidth() {
+        return minRoomWidth;
+    }
+    
+    public static int getMinRoomHeight() {
+        return minRoomHeight;
+    }
 
     public static void createRoom(TETile[][] world, int width, int height, Position p, TETile t) {
         int xMax = world.length;

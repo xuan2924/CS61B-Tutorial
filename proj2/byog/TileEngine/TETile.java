@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 import edu.princeton.cs.introcs.StdDraw;
-import byog.CoreFF.RandomUtils;
+import byog.Core.RandomUtils;
 
 /**
  * The TETile object is used to represent a single tile in your game. A 2D array of tiles make up a

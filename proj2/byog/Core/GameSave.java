@@ -22,7 +22,7 @@ public class GameSave implements Serializable {
     }
 
     public static UserLoad loadWorld() {
-        File f = new File("./world.ser");
+        File f = new File("./savefile.txt");
         if (f.exists()) {
             try {
                 FileInputStream fs = new FileInputStream(f);
@@ -38,7 +38,7 @@ public class GameSave implements Serializable {
     }
 
     public static void saveWorld(UserLoad u) {
-        File f = new File("./world.ser");
+        File f = new File("./savefile.txt");
         try {
             if (!f.exists()) {
                 f.createNewFile();
