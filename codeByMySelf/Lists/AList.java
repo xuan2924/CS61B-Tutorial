@@ -1,3 +1,5 @@
+package Lists;
+
 /**
  * AList 是一个基于数组的列表。
  * 核心特性：随机访问速度快 (O(1))，支持动态扩容。
@@ -44,6 +46,7 @@ public class AList<Item> {
      * 返回末尾元素 (O(1))
      */
     public Item getLast() {
+
         return items[size - 1];
     }
 
@@ -51,6 +54,7 @@ public class AList<Item> {
      * 获取指定索引的元素 (O(1))
      */
     public Item get(int i) {
+
         return items[i];
     }
 
@@ -58,6 +62,7 @@ public class AList<Item> {
      * 返回列表大小 (O(1))
      */
     public int size() {
+
         return size;
     }
 

@@ -1,3 +1,5 @@
+package Lists;
+
 /**
  * DLList 是一个双向链表。
  * 使用了泛型 <T> 以支持存储任何类型的数据。
@@ -59,11 +61,13 @@ public class DLList<T> {
 
     /** 获取第一个元素 (O(1)) */
     public T getFirst() {
+
         return sentinel.next.item;
     }
 
     /** 获取最后一个元素 (O(1)) */
     public T getLast() {
+
         return sentinel.prev.item;
     }
 

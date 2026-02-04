@@ -15,7 +15,7 @@ public class Sort {
         // 1. 找到最小元素的索引
         int smallestIndex = findSmallest(x, start);
 
-        // 2. 交换最小元素到 start 位置
+        // 2. 交换最小元素到 start 位置，，，
         swap(x, start, smallestIndex);
 
         // 3. 递归处理剩余部分

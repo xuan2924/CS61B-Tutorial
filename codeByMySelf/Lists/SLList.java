@@ -1,3 +1,5 @@
+package Lists;
+
 /**
  * SLList 是一个单向链表，对底层的 IntNode 进行了封装。
  * 采用了哨兵节点 (Sentinel Node) 来简化边界情况处理。
