@@ -1,6 +1,7 @@
 package hw3.hash;
 
 import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -33,20 +34,43 @@ public class TestComplexOomage {
         assertTrue(OomageTestUtility.haveNiceHashCodeSpread(oomages, 10));
     }
 
-    /* TODO: Create a list of Complex Oomages called deadlyList
+    /* Finished: Create a list of Complex Oomages called deadlyList
      * that shows the flaw in the hashCode function.
      */
-    /*
+
     @Test
     public void testWithDeadlyParams() {
         List<Oomage> deadlyList = new ArrayList<>();
 
         // Your code here.
 
-        assertTrue(OomageTestUtility.haveNiceHashCodeSpread(deadlyList, 10));
-    } */
+        for (int i = 0; i < 100; i++) {
+            // 1. 每次循环都创建一个新的“序列”
+            ArrayList<Integer> params = new ArrayList<>();
 
-    /** Calls tests for SimpleOomage. */
+            // 2. 加入一些不同的元素（比如 i），让这些对象在 equals 上是不同的
+            params.add(i);
+
+            // 3. 加入“致命”的固定后缀
+            // 只要最后四个数字在所有对象中都一样，它们的 hashCode 就会撞车
+            for (int j = 0; j < 4; j++) {
+                params.add(255);
+            }
+
+            // 4. 使用这个 params 序列创建一个 ComplexOomage
+            // 并存入 deadlyList
+            deadlyList.add(new ComplexOomage(params));
+        }
+
+        // 5. 此时 deadlyList 里的 100 个对象，虽然内容不同，但 hashCode 全部相同
+        // 它们会全部掉进同一个桶里，导致 haveNiceHashCodeSpread 返回 false
+        // 从而让测试能够检测出这个哈希算法的无能
+        assertTrue(OomageTestUtility.haveNiceHashCodeSpread(deadlyList, 10));
+    }
+
+    /**
+     * Calls tests for SimpleOomage.
+     */
     public static void main(String[] args) {
         jh61b.junit.textui.runClasses(TestComplexOomage.class);
     }

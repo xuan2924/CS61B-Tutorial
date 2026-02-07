@@ -19,17 +19,17 @@ public class HashTableVisualizer {
         int M = 10;
 
         HashTableDrawingUtility.setScale(scale);
-        List<Oomage> oomies = new ArrayList<>();
+        List<ComplexOomage> oomies = new ArrayList<>();
         for (int i = 0; i < N; i += 1) {
-           oomies.add(SimpleOomage.randomSimpleOomage());
+            oomies.add(ComplexOomage.randomComplexOomage());
         }
         visualize(oomies, M, scale);
     }
 
-    public static void visualize(List<Oomage> oomages, int M, double scale) {
+    public static void visualize(List<ComplexOomage> oomages, int M, double scale) {
         HashTableDrawingUtility.drawLabels(M);
         int[] numInBucket = new int[M];
-        for (Oomage s : oomages) {
+        for (ComplexOomage s : oomages) {
             int bucketNumber = (s.hashCode() & 0x7FFFFFFF) % M;
             double x = HashTableDrawingUtility.xCoord(numInBucket[bucketNumber]);
             numInBucket[bucketNumber] += 1;
