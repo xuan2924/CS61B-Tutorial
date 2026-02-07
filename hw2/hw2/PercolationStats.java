@@ -2,7 +2,7 @@ package hw2;
 
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
-import edu.princeton.cs.algs4.Stopwatch;
+//import edu.princeton.cs.algs4.Stopwatch;
 
 
 
@@ -62,7 +62,8 @@ public class PercolationStats {
         return mean() + 1.96 * stddev() / Math.sqrt(times);
     }
 
-    public static void main(String[] args) {
+
+    /*public static void main(String[] args) {
         PercolationFactory pf = new PercolationFactory();
         PercolationStats p = new PercolationStats(1000, 100, pf);
         Stopwatch partTimer = new Stopwatch();
@@ -85,6 +86,6 @@ public class PercolationStats {
          * stddev:  0.005673238899181237
          *  [ 0.592095 ,0.593090 ]  time : 0.027
 
-         */
-    }
+    }     */
+
 }
