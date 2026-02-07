@@ -138,8 +138,8 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
     @Override
     public V remove(K key) {
         removeValue = null; // 使用之前记得清空
-        root = removeHelper(root, key) ;
-        return removeValue ;
+        root = removeHelper(root, key);
+        return removeValue;
     }
 
     /**
@@ -149,9 +149,9 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
      **/
     @Override
     public V remove(K key, V value) {
-        V res = getHelper(key,root);
-        if(res != null && res.equals(value)){
-            root = removeHelper(root,key);
+        V res = getHelper(key, root);
+        if (res != null && res.equals(value)) {
+            root = removeHelper(root, key);
             return res;
         } else {
             return null;
@@ -197,6 +197,39 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
 
     @Override
     public Iterator<K> iterator() {
-        throw new UnsupportedOperationException();
+        return new BSTIterator(root);
+    }
+
+    private class BSTIterator implements Iterator<K> {
+        private Stack<Node> stack = new Stack<>();
+
+        public BSTIterator(/**/Node src) {
+            while (src != null) {
+                stack.push(src);
+                src = src.left;
+            }
+        }
+
+        @Override
+        public boolean hasNext() {
+            return stack.empty();
+        }
+
+        @Override
+        public K next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            Node curr = stack.pop();
+            //处理右节点
+            if (curr.right != null) {
+                Node temp = curr.right;
+                while (temp != null) {
+                    stack.push(temp);
+                    temp = temp.left;
+                }
+            }
+            return curr.key;
+        }
     }
 }
